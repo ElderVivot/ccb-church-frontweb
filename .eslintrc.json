@@ -1,3 +1,135 @@
 {
-  "extends": "next/core-web-vitals"
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "standard",
+        "plugin:@typescript-eslint/recommended",
+        "next"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "eslint-plugin-import-helpers"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "space-before-function-paren": [
+            "off"
+        ],
+        "react/prop-types": "off",
+        "eol-last": [
+            "error",
+            "never"
+        ], // end-of-file never 'enter'
+        "camelcase": [
+            "warn",
+            {
+                "properties": "always"
+            }
+        ],
+        "no-new": "off",
+        "no-prototype-builtins": "off",
+        "no-restricted-syntax": "off",
+        "max-classes-per-file": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "no-console": "off",
+        "import/prefer-default-export": "off",
+        "@typescript-eslint/explicit-function-return-type": [
+            "off"
+        ],
+        "@typescript-eslint/no-unused-vars": [
+            "warn",
+            {
+                "argsIgnorePattern": "_"
+            }
+        ],
+        "no-undef": "off",
+        "no-useless-constructor": "off",
+        "@typescript-eslint/naming-convention": [
+            "warn",
+            {
+                "selector": "interface",
+                "format": [
+                    "PascalCase"
+                ],
+                "custom": {
+                    "regex": "^I[A-Z]",
+                    "match": true
+                }
+            },
+            {
+                "selector": "enum",
+                "format": [
+                    "PascalCase"
+                ],
+                "custom": {
+                    "regex": "^E[A-Z]",
+                    "match": true
+                }
+            }
+        ],
+        "@typescript-eslint/explicit-module-boundary-types": [
+            "warn",
+            {
+                "allowArgumentsExplicitlyTypedAsAny": true
+            }
+        ],
+        "no-underscore-dangle": "off",
+        "@typescript-eslint/camelcase": "off",
+        "class-methods-use-this": "off",
+        "import/extensions": [
+            "error",
+            "never",
+            {
+                "ts": "never",
+                "service": "always",
+                "controller": "always",
+                "module": "always",
+                "interface": "always",
+                "dto": "always",
+                "pipe": "always",
+                "entity": "always",
+                "repository": "always",
+                "model": "always",
+                "decorator": "always",
+                "adapter": "always",
+                "implementation": "always"
+            }
+        ],
+        "import-helpers/order-imports": [
+            "warn",
+            {
+                "newlinesBetween": "always",
+                "groups": [
+                    "module",
+                    "/^@server\/shared/",
+                    "/^@/",
+                    [
+                        "parent",
+                        "sibling",
+                        "index"
+                    ]
+                ],
+                "alphabetize": {
+                    "order": "asc",
+                    "ignoreCase": true
+                }
+            }
+        ]
+    }
 }

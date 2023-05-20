@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+enum StatusActiveInactive {
+  ACTIVE
+  INACTIVE
+}
+
+model Administration {
+  idAdministration   String   @id @default(uuid())
+  nameAdministration String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  sectors Sector[]
+
+  @@map("administrations")
+}
+
+model Sector {
+  idSector         String               @id @default(uuid())
+  numberSector     Int
+  nameSector       String
+  statusSector     StatusActiveInactive @default(ACTIVE)
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  idAdministration String
+
+  administration Administration @relation(fields: [idAdministration], references: [idAdministration])
+
+  churchs Church[]
+
+  @@index([idAdministration])
+  @@map("sectors")
+}
+
+model Church {
+  idChurch     String               @id @default(uuid())
+  codeChurch   String               @unique
+  nameChurch   String
+  statusChurch StatusActiveInactive @default(ACTIVE)
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  idSector     String
+  idOrdemPagto String?
+
+  sector Sector @relation(fields: [idSector], references: [idSector])
+
+  @@index([idSector])
+  @@map("churchs")
+}
