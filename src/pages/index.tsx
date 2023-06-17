@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 import { useUser } from '@auth0/nextjs-auth0/client'
-import { Button, Flex, Stack } from '@chakra-ui/react'
+import { Button, Flex, Heading, Stack } from '@chakra-ui/react'
 
 export default function Main(): JSX.Element {
     const router = useRouter()
@@ -13,11 +13,11 @@ export default function Main(): JSX.Element {
 
     const { user, error, isLoading } = useUser()
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Heading ml={2} as='h3' size='md'>Carregando...</Heading>
     if (error) return <div>{error.message}</div>
 
     if (user) {
-        router.push('/dashboard')
+        router.push('/Dashboard')
     }
 
     return (

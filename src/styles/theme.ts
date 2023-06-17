@@ -193,7 +193,7 @@ export const customTheme = extendTheme({
     styles: {
         global: {
             body: {
-                bg: '#e6edfe',
+                bg: '#f8faff',
                 color: 'gray.700'
             }
         }

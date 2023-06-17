@@ -15,6 +15,9 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@prisma/client": "^4.14.1",
+    "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0",
+    "formik": "^2.2.9",
     "framer-motion": "^10.12.12",
     "next": "13.3.0",
     "next-auth": "^4.22.0",
@@ -22,12 +25,14 @@
     "prisma": "^4.14.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-query": "^3.39.3"
+    "react-query": "^3.39.3",
+    "react-table": "^7.8.0"
   },
   "devDependencies": {
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
+    "@types/react-table": "^7.7.14",
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.59.6",
     "autoprefixer": "10.4.14",
@@ -39,6 +44,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.4"
   }
 }

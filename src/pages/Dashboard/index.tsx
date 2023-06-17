@@ -1,15 +1,8 @@
-import { useRouter } from 'next/router'
-
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import { Heading } from '@chakra-ui/react'
 import { LayoutDefault } from '@components/_LayoutDefault'
 
-export default withPageAuthRequired(function Index({ user }) {
-    const router = useRouter()
-    if (!user) {
-        router.push('/')
-    }
-
+export default withPageAuthRequired(function Index() {
     return (
         <>
             <LayoutDefault title='CCB - Dashboard'>
