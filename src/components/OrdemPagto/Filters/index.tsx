@@ -1,10 +1,10 @@
 import { PropsWithChildren } from 'react'
 
 import { IFilters } from '../_interfaces'
-import { LoginComponent } from './Login'
-import { NameAccessComponent } from './NameAccess'
-import { StatusAccessPortalsComponent } from './StatusAccess'
-import { TypeAccessPortalsComponent } from './TypeAccessPortals'
+import { NameCentroCustoComponent } from './NameCentroCusto'
+import { NameProviderComponent } from './NameProvider'
+import { SchedulingDateComponent } from './SchedulingDate'
+import { StatusOrdemPagtoComponent } from './StatusOrdemPagto'
 
 interface IProps extends PropsWithChildren<object> {
     filters: IFilters
@@ -14,10 +14,10 @@ interface IProps extends PropsWithChildren<object> {
 export function FilterComponent({ filters, setFilters }: IProps): JSX.Element {
     return (
         <>
-            <StatusAccessPortalsComponent filters={filters} setFilters={setFilters} />
-            <TypeAccessPortalsComponent filters={filters} setFilters={setFilters} />
-            <LoginComponent filters={filters} setFilters={setFilters} />
-            <NameAccessComponent filters={filters} setFilters={setFilters} />
+            <SchedulingDateComponent filters={filters} setFilters={setFilters} />
+            <StatusOrdemPagtoComponent filters={filters} setFilters={setFilters} />
+            <NameProviderComponent filters={filters} setFilters={setFilters} />
+            <NameCentroCustoComponent filters={filters} setFilters={setFilters} />
         </>
     )
 }

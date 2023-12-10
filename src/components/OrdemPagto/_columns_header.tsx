@@ -1,7 +1,9 @@
+import Link from 'next/link'
+import { FaFileAlt, FaFileInvoice, FaFileInvoiceDollar, FaFileArchive, FaFilePrescription, FaFileContract, FaFileDownload } from 'react-icons/fa'
 import { CellProps, Column } from 'react-table'
 
-import { IOrdemPagtoList } from '@api/OrdemPagto/IOrdemPagto'
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { IOrdemPagto } from '@api/OrdemPagto/IOrdemPagto'
+import { Box, Button, Flex, Text, Tooltip } from '@chakra-ui/react'
 import { formatDate } from '@common/utils/functions'
 
 import { IFilters } from './_interfaces'
@@ -14,89 +16,130 @@ interface ICellProps extends CellProps<any> {
     filtersExecuteFetch: IFilters
 }
 
-export const columnsHeader = (tenant: string, pageNumber: number, filtersExecuteFetch: IFilters): Column<IOrdemPagtoList>[] => {
+export const columnsHeader = (): Column<IOrdemPagto>[] => {
     return [
         {
-            Header: 'Data',
-            accessor: 'createdAt',
+            Header: 'Data pra Pagto',
+            accessor: 'schedulingDate',
+            width: '4.1%',
+            Cell: ({ value }: ICellProps): string => (formatDate(value, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", 'dd/MM/yyyy')),
+            disableFilters: true
+        },
+        {
+            Header: 'Centro Custo',
+            accessor: 'namesCentroCusto',
             width: '8.1%',
-            Cell: ({ value }: ICellProps): string => (formatDate(value, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", 'dd/MM/yyyy'))
+            disableFilters: true
+        },
+        {
+            Header: 'Valor',
+            accessor: 'amountOrdemPagto',
+            width: '4.1%',
+            disableFilters: true,
+            Cell: ({ value }: ICellProps): string => Number(value).toFixed(2).toString().replace('.', ',')
         },
         {
             Header: 'Status',
             accessor: 'status',
-            width: '7%',
+            width: '5%',
             Cell: ({ value }: ICellProps): JSX.Element => {
-                if (value === 'OPENED') return <Box bg={'yellow.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Em Aberto</Box>
-                else if (value === 'PAYED') return <Box bg={'green.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Pago</Box>
-                else if (value === 'CANCELED') return <Box bg={'red.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Cancelado</Box>
-                else if (value === 'DELETED') return <Box bg={'red.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Deletado</Box>
-            }
+                if (value === 'OPENED') return <Box bg={'yellow.400'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Em Aberto</Box>
+                else if (value === 'PAYED') return <Box bg={'orange.400'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Pago</Box>
+                else if (value === 'CANCELED') return <Box bg={'red.400'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Cancelado</Box>
+                else if (value === 'DELETED') return <Box bg={'red.400'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Deletado</Box>
+                else if (value === 'LAUNCHED_SYSTEM') return <Box bg={'green.400'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Lançado</Box>
+            },
+            disableFilters: true
         },
         {
             Header: 'Nome Fornecedor',
             accessor: 'nameProvider',
-            width: '16.1%',
+            width: '10.1%',
             disableFilters: true
         },
         {
-            Header: 'Status',
-            accessor: 'status',
-            width: '6.1%',
-            Cell: ({ value }: ICellProps): JSX.Element => {
-                if (value === 'ACTIVE') return <Box bg={'green.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Ativa</Box>
-                else if (value === 'INACTIVE') return <Box bg={'red.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Inativa</Box>
-            },
-            disableFilters: true
-        },
-        {
-            Header: 'Forma Pagamento',
+            Header: 'Forma Pagto',
             accessor: 'formPayment',
-            width: '7%',
-            Cell: ({ value, row }: ICellProps): JSX.Element => {
-                const { original } = row
-                if (original.urlBoleto) return <Box bg={'cyan.400'} rounded={5} my={0.5} mx={2} fontWeight={500}></Box>
-                else if (value === 'PAYED') return <Box bg={'orange.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Pago</Box>
-                else if (value === 'CANCELED') return <Box bg={'red.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Cancelado</Box>
-                else if (value === 'DELETED') return <Box bg={'red.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Deletado</Box>
-            }
+            width: '3.1%',
+            disableFilters: true
         },
         {
             Header: 'Atualizado Em',
             accessor: 'updatedAt',
-            width: '8.1%',
+            width: '4.1%',
             disableFilters: true,
             Cell: ({ value }: ICellProps): string => (formatDate(value, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", 'dd/MM/yyyy HH:mm:ss'))
         },
         {
-            Header: 'Status Senha',
-            accessor: 'timestampPasswordIncorrect',
-            width: '6.1%',
-            Cell: ({ value, row }: ICellProps): JSX.Element => {
-                if (!value) return <Box bg={'green.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Correta</Box>
-                else if (value < row.original.updatedAt) return <Box bg={'green.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Correta</Box>
-                else return <Box bg={'red.400'} rounded={5} my={0.5} mx={2} fontWeight={500}>Incorreta</Box>
-            },
+            Header: 'Núm NF',
+            accessor: 'numberNote',
+            width: '3.1%',
+            disableFilters: true
+        },
+        {
+            Header: 'Núm Pedido',
+            accessor: 'numberOrder',
+            width: '3.1%',
+            disableFilters: true
+        },
+        {
+            Header: 'Dados pra Pagto',
+            accessor: 'dataToPayment',
+            width: '10.1%',
+            disableFilters: true
+        },
+        {
+            Header: 'Informações adicionais',
+            accessor: 'additionalDescription',
+            width: '10.1%',
             disableFilters: true
         },
         {
             Header: (): JSX.Element => {
                 return (
                     <Box display={'flex'} alignItems={'center'}>
-                        <Text >Ações</Text>
-                        {/* <AddNewAccessPortals tenant={tenant} /> */}
+                        <Text >Arquivos</Text>
                     </Box>
                 )
             },
-            accessor: 'idAccessPortals',
-            width: '5.1%',
+            accessor: 'urlBoleto',
+            width: '0.1%',
             disableFilters: true,
             disableSortBy: true,
             Cell: ({ row }: ICellProps): JSX.Element => {
                 return (
-                    <Flex justifyContent={'center'}>
-                        <EditCompanieRoutine rowData={row.original} tenant={tenant} pageNumber={pageNumber} filtersExecuteFetch={filtersExecuteFetch} />
-                        {/* <DeleteCompanieRoutine idCompanieRoutine={value} tenant={tenant} pageNumber={pageNumber} filtersExecuteFetch={filtersExecuteFetch} /> */}
+                    <Flex justifyContent={'center'} alignItems={'center'}>
+                        <Tooltip label='Abrir Boleto' >
+                            <Button as='a' iconSpacing={0} m={0} p={0} border={0} size='sm' bg={'transparent'}
+                                href={row.original.urlBoleto} target="_blank"
+                                isDisabled={!row.original.urlBoleto} leftIcon={<FaFileInvoiceDollar />}
+                            />
+                        </Tooltip>
+                        <Tooltip label='Abrir Nota Fiscal' >
+                            <Button as='a' iconSpacing={0} m={0} p={0} border={0} size='sm' bg={'transparent'}
+                                href={row.original.urlNF} target="_blank" rel="noopener noreferrer"
+                                isDisabled={!row.original.urlNF} leftIcon={<FaFileContract />}
+                            />
+                        </Tooltip>
+                        <Tooltip label='Abrir Pedido Compra' >
+                            <Button as='a' iconSpacing={0} m={0} p={0} border={0} size='sm' bg={'transparent'}
+                                href={row.original.urlOrder} target="_blank" rel="noopener noreferrer"
+                                isDisabled={!row.original.urlOrder} leftIcon={<FaFilePrescription />}
+                            />
+                        </Tooltip>
+                        <Tooltip label='Abrir Dados Pra Pagto' >
+                            <Button as='a' iconSpacing={0} m={0} p={0} border={0} size='sm' bg={'transparent'}
+                                href={row.original.urlDataToPayment} target="_blank" rel="noopener noreferrer"
+                                isDisabled={!row.original.urlDataToPayment} leftIcon={<FaFileAlt />}
+                            />
+                        </Tooltip>
+                        <Tooltip label='Abrir Comprovante Pagto' mr={3}>
+                            <Button as='a' iconSpacing={0} m={0} p={0} border={0} size='sm' bg={'transparent'}
+                                href={row.original.urlPaymentProof} target="_blank" rel="noopener noreferrer"
+                                isDisabled={!row.original.urlPaymentProof} leftIcon={<FaFileDownload />}
+                            />
+                        </Tooltip>
+
                     </Flex>
                 )
             }

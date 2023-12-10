@@ -1,7 +1,23 @@
-export const initialValuesAccessPortalsAddNew = {
-    idTypeAccessPortals: '6a009e00-47b0-4e45-a28f-87a3481b2060',
-    nameAccess: '',
-    login: '',
-    password: '',
-    status: 'ACTIVE'
+import { IOrdemPagto } from '@api/OrdemPagto/IOrdemPagto'
+import { formatDate } from '@common/utils/functions'
+
+export const initialValuesOrdemPagtoAddNew: IOrdemPagto = {
+    idPaymentObjective: '',
+    idUser: '',
+    schedulingDate: formatDate(new Date(), '', 'yyyy-MM-dd'),
+    status: 'OPENED',
+    nameProvider: '',
+    formPayment: 'BOLETO',
+    dataToPayment: '',
+    numberNote: '',
+    numberOrder: '',
+    additionalDescription: '',
+    urlOrder: '',
+    urlNF: '',
+    urlBoleto: '',
+    urlPaymentProof: '',
+    urlDataToPayment: '',
+    amountOrdemPagto: 0,
+    idCentroCusto: '',
+    OrdemPagtoCCustos: []
 }

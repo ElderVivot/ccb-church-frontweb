@@ -1,0 +1,9 @@
+.react-select-custom {
+    font-size: 0.72rem !important;
+    font-weight: 400 !important;
+    width: 350px;
+}
+
+.react-select-custom>div:nth-child(3) {
+    background: transparent !important;
+}

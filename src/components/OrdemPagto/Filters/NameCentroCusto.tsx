@@ -9,18 +9,18 @@ interface IProps extends PropsWithChildren<object> {
     setFilters: any
 }
 
-export function NameAccessComponent({ filters, setFilters }: IProps): JSX.Element {
+export function NameCentroCustoComponent({ filters, setFilters }: IProps): JSX.Element {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const eventValue = event.target.value
-        setFilters({ ...filters, nameAccess: eventValue })
+        setFilters({ ...filters, nameCentroCusto: eventValue })
     }
 
     return (
-        <FormControl mr={2} maxW={'250px'}>
-            <FormLabel htmlFor='nameAccess' fontSize={'xs'} mb={0.5}>Nome Acesso</FormLabel>
-            <Input fontSize={'xs'} h={'1.7rem'} fontWeight={400} width={'250px'} p={'5px'}
-                id='nameAccess'
-                value={filters.nameAccess}
+        <FormControl mr={2} maxW={'200px'}>
+            <FormLabel htmlFor='nameCentroCusto' fontSize={'xs'} mb={0.5}>Nome Centro Custo</FormLabel>
+            <Input fontSize={'xs'} h={'1.7rem'} fontWeight={400} width={'200px'} p={'5px'}
+                id='nameCentroCusto'
+                value={filters.nameCentroCusto}
                 onChange={handleChange}
             ></Input>
         </FormControl>

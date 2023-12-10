@@ -1,6 +1,7 @@
 export interface IFilters {
-    statusAccess?: string
-    idTypeAccessPortals?: string
-    login?: string
-    nameAccess?: string
+    statusOrdemPagto?: string
+    nameProvider?: string
+    nameCentroCusto?: string
+    schedulingDateStart?: string
+    schedulingDateEnd?: string
 }

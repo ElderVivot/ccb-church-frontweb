@@ -1,11 +1,11 @@
 import { LayoutDefault } from '@components/_LayoutDefault'
-import { OrdemPagto as OrdemPagtoComponent } from '@components/OrdemPagto'
+import { CentroCusto as CentroCustoComponent } from '@components/CentroCusto'
 
-export default function OrdemPagto(): JSX.Element {
+export default function CentroCusto(): JSX.Element {
     return (
         <>
             <LayoutDefault title='CCB - Ordem Pagto'>
-                <OrdemPagtoComponent />
+                <CentroCustoComponent />
             </LayoutDefault>
         </>
     )

@@ -3,21 +3,21 @@ import { Formik } from 'formik'
 import { PropsWithChildren } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 
-import { putAccessPortals } from '@api/tenant/AccessPortals'
-import { IAccessPortals } from '@api/tenant/AccessPortals/IAccessPortals'
+import { putOrdemPagto } from '@api/OrdemPagto'
+import { IOrdemPagto } from '@api/OrdemPagto/IOrdemPagto'
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, useDisclosure } from '@chakra-ui/react'
 import { IconEdit } from '@components/_Icons/edit'
 
-import { FormLogin } from '../_Components/FormLogin'
 import { FormNameAccess } from '../_Components/FormNameAccess'
+import { FormLogin } from '../_Components/FormNameProvider'
 import { FormPassword } from '../_Components/FormPassword'
 import { FormStatus } from '../_Components/FormStatus'
-import { FormTypeAccessPortals } from '../_Components/FormTypeAccessPortals'
+import { FormTypeOrdemPagto } from '../_Components/FormTypeOrdemPagto'
 import { IFilters } from '../_interfaces'
-import { validationSchemaAccessPortals } from '../_validation_schema'
+import { validationSchemaOrdemPagto } from '../_validation_schema'
 
 interface IProps extends PropsWithChildren<object> {
-    rowData: IAccessPortals,
+    rowData: IOrdemPagto,
     tenant: string
     pageNumber: number
     filtersExecuteFetch: IFilters
@@ -29,15 +29,15 @@ export function EditCompanieRoutine(props: IProps): JSX.Element {
 
     const { rowData: accessPortals, tenant, pageNumber, filtersExecuteFetch } = props
 
-    const { mutateAsync: updateCompanieRoutine } = useMutation(async (data: IAccessPortals) => {
-        return await putAccessPortals(data, tenant)
+    const { mutateAsync: updateCompanieRoutine } = useMutation(async (data: IOrdemPagto) => {
+        return await putOrdemPagto(data, tenant)
     }, {
         onSuccess: ({ data: newData }) => {
             console.log(newData)
-            queryClient.setQueryData(['access_portals', pageNumber, filtersExecuteFetch], (oldData: AxiosResponse<IAccessPortals[], any>): AxiosResponse<IAccessPortals[], any> => {
+            queryClient.setQueryData(['access_portals', pageNumber, filtersExecuteFetch], (oldData: AxiosResponse<IOrdemPagto[], any>): AxiosResponse<IOrdemPagto[], any> => {
                 const dataToReturn = { ...oldData }
                 dataToReturn.data = oldData.data.map((old) => {
-                    if (old.idAccessPortals === newData.idAccessPortals) {
+                    if (old.idOrdemPagto === newData.idOrdemPagto) {
                         return { ...old, ...newData }
                     } else {
                         return { ...old }
@@ -63,7 +63,7 @@ export function EditCompanieRoutine(props: IProps): JSX.Element {
                     initialValues={
                         { ...accessPortals }
                     }
-                    validationSchema={validationSchemaAccessPortals}
+                    validationSchema={validationSchemaOrdemPagto}
                     onSubmit={async (values, { setSubmitting }) => {
                         try {
                             setSubmitting(true)
@@ -84,7 +84,7 @@ export function EditCompanieRoutine(props: IProps): JSX.Element {
                                 <ModalHeader />
                                 <ModalCloseButton />
                                 <ModalBody pb={6}>
-                                    <FormTypeAccessPortals errors={errors} values={values} handleChange={handleChange} setFieldTouched={setFieldTouched} handleBlur={handleBlur} />
+                                    <FormTypeOrdemPagto errors={errors} values={values} handleChange={handleChange} setFieldTouched={setFieldTouched} handleBlur={handleBlur} />
                                     <FormLogin errors={errors} values={values} handleChange={handleChange} setFieldTouched={setFieldTouched} handleBlur={handleBlur} />
                                     <FormNameAccess errors={errors} values={values} handleChange={handleChange} setFieldTouched={setFieldTouched} handleBlur={handleBlur} />
                                     <FormPassword errors={errors} values={values} handleChange={handleChange} setFieldTouched={setFieldTouched} handleBlur={handleBlur} />

@@ -1,11 +1,12 @@
 import { FormikErrors } from 'formik'
 import { ChangeEvent, PropsWithChildren } from 'react'
 
-import { IAccessPortals } from '@api/tenant/AccessPortals/IAccessPortals'
+import { IOrdemPagto } from '@api/OrdemPagto/IOrdemPagto'
 
-export interface IPropsFormAccessPortals extends PropsWithChildren<object> {
-    errors: FormikErrors<IAccessPortals>
-    values: IAccessPortals
+export interface IPropsFormOrdemPagto extends PropsWithChildren<object> {
+    selectOptions?: { value: string, label: string }[]
+    errors: FormikErrors<IOrdemPagto>
+    values: IOrdemPagto
     handleBlur: {
         /** Classic React blur handler, keyed by input name */
         (e: React.FocusEvent<any>): void;

@@ -1,8 +1,7 @@
-import { withPageAuthRequired } from '@auth0/nextjs-auth0/client'
 import { Heading } from '@chakra-ui/react'
 import { LayoutDefault } from '@components/_LayoutDefault'
 
-export default withPageAuthRequired(function Index() {
+export default function Dashboard(): JSX.Element {
     return (
         <>
             <LayoutDefault title='CCB - Dashboard'>
@@ -10,4 +9,4 @@ export default withPageAuthRequired(function Index() {
             </LayoutDefault>
         </>
     )
-})
+}
