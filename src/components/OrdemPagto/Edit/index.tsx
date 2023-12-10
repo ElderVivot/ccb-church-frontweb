@@ -34,7 +34,7 @@ export function EditCompanieRoutine(props: IProps): JSX.Element {
     }, {
         onSuccess: ({ data: newData }) => {
             console.log(newData)
-            queryClient.setQueryData(['access_portals', pageNumber, filtersExecuteFetch], (oldData: AxiosResponse<IOrdemPagto[], any>): AxiosResponse<IOrdemPagto[], any> => {
+            queryClient.setQueryData(['ordem_pagto', pageNumber, filtersExecuteFetch], (oldData: AxiosResponse<IOrdemPagto[], any>): AxiosResponse<IOrdemPagto[], any> => {
                 const dataToReturn = { ...oldData }
                 dataToReturn.data = oldData.data.map((old) => {
                     if (old.idOrdemPagto === newData.idOrdemPagto) {
