@@ -13,7 +13,7 @@ export function Header(props: BoxProps): JSX.Element {
         <Box as="header" {...props} bg={'indigo.7'} px={4} zIndex={100}>
             <Flex h={16} alignItems={'center'} justifyContent={'space-between'} >
                 <HStack spacing={10} alignItems={'center'}>
-                    <Link href="/dashboard" as={'/dashboard'} passHref={true}>
+                    <Link href="/Dashboard" as={'/Dashboard'} passHref={true}>
                         <Image height={110} width={110} src="/logo.png" alt='Logo' />
                     </Link>
                     <HStack
