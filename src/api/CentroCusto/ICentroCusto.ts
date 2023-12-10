@@ -1,9 +1,3 @@
-
-enum ECentroCustoStatus {
-    ACTIVE = 'ACTIVE',
-    INACTIVE = 'INACTIVE'
-}
-
 export interface ICentroCusto {
     idCentroCusto: string
     codeCentroCusto: string
