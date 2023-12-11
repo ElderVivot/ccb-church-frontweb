@@ -82,6 +82,7 @@ export function AddNewOrdemPagto({ centroCusto, paymentObjective, pageNumber, fi
                     initialValues={initialValuesOrdemPagtoAddNew}
                     validationSchema={validationSchemaOrdemPagto}
                     onSubmit={async (values, { setSubmitting }) => {
+                        values.OrdemPagtoCCustos = []
                         try {
                             setSubmitting(true)
                             onOpenWithoutPercent()
@@ -91,7 +92,6 @@ export function AddNewOrdemPagto({ centroCusto, paymentObjective, pageNumber, fi
                             if (fileOrder) values.urlOrder = await uploadDocument(fileOrder)
 
                             values.idUser = user.idUser
-                            values.OrdemPagtoCCustos = []
                             values.OrdemPagtoCCustos.push({
                                 idCentroCusto: values.idCentroCusto,
                                 amount: values.amountOrdemPagto.toFixed(2).toString()
