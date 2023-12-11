@@ -60,7 +60,7 @@ export function OrdemPagto(): JSX.Element {
     const [centroCusto, setCentroCusto] = useState<{ value: string, label: string }[]>([])
     const [paymentObjective, setPaymentObjective] = useState<{ value: string, label: string }[]>([])
 
-    const { data: response, isFetching, isSuccess } = useQuery(['ordem_pagto', filtersExecuteFetch], async () => {
+    const { data: response, isFetching, isSuccess } = useQuery(['ordem_pagto', pageNumber, filtersExecuteFetch], async () => {
         const response = await fetchDataOrdemPagto(`${filterUrl(filtersExecuteFetch, pageNumber, initialState.pageSize)}`)
         return response
     }, {
@@ -151,7 +151,7 @@ export function OrdemPagto(): JSX.Element {
                 </Flex>
                 <Spacer />
                 <ButtonGroup mr={5} mb={2}>
-                    <AddNewOrdemPagto centroCusto={centroCusto} paymentObjective={paymentObjective} filtersExecuteFetch={filtersExecuteFetch} />
+                    <AddNewOrdemPagto centroCusto={centroCusto} paymentObjective={paymentObjective} filtersExecuteFetch={filtersExecuteFetch} pageNumber={pageNumber} />
                 </ButtonGroup>
             </Flex>
 

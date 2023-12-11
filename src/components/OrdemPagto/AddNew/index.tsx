@@ -25,6 +25,7 @@ interface IProps {
     centroCusto: { value: string, label: string }[]
     paymentObjective: { value: string, label: string }[]
     filtersExecuteFetch: any
+    pageNumber: number
 }
 
 async function uploadDocument(fileSave: File) {
@@ -56,7 +57,7 @@ async function uploadDocument(fileSave: File) {
     }
 }
 
-export function AddNewOrdemPagto({ centroCusto, paymentObjective, filtersExecuteFetch }: IProps): JSX.Element {
+export function AddNewOrdemPagto({ centroCusto, paymentObjective, pageNumber, filtersExecuteFetch }: IProps): JSX.Element {
     const queryClient = useQueryClient()
     const { user } = useAuth()
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -90,13 +91,14 @@ export function AddNewOrdemPagto({ centroCusto, paymentObjective, filtersExecute
                             if (fileOrder) values.urlOrder = await uploadDocument(fileOrder)
 
                             values.idUser = user.idUser
+                            values.OrdemPagtoCCustos = []
                             values.OrdemPagtoCCustos.push({
                                 idCentroCusto: values.idCentroCusto,
                                 amount: values.amountOrdemPagto.toFixed(2).toString()
                             })
 
                             await postOrdemPagto(values)
-                            await queryClient.invalidateQueries(['ordem_pagto', filtersExecuteFetch])
+                            await queryClient.invalidateQueries(['ordem_pagto', pageNumber, filtersExecuteFetch])
                             setSubmitting(false)
                             onCloseWithoutPercent()
                             onClose()
@@ -188,10 +190,10 @@ export function AddNewOrdemPagto({ centroCusto, paymentObjective, filtersExecute
                                     <Button size={'sm'} colorScheme='green' mr={3} isDisabled={isSubmitting} type='submit'>Salvar</Button>
                                     <Button size={'sm'} colorScheme='orange' onClick={onClose}>Cancelar</Button>
                                 </ModalFooter>
-                                {/* <Box>
+                                <Box>
                                     <pre style={{ fontSize: '9px' }}>{JSON.stringify(values, null, 2)}</pre>
                                     <pre style={{ fontSize: '9px' }}>{JSON.stringify(errors, null, 2)}</pre>
-                                </Box> */}
+                                </Box>
                             </ModalContent>
                         </form>
                     )}
