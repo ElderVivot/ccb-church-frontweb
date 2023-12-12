@@ -4,4 +4,5 @@ export interface IFilters {
     nameCentroCusto?: string
     schedulingDateStart?: string
     schedulingDateEnd?: string
+    setor?: string
 }

@@ -28,7 +28,7 @@ export function StatusOrdemPagtoComponent({ filters, setFilters }: IProps): JSX.
 
     return (
         <FormControl mr={2} maxW={'100px'}>
-            <FormLabel htmlFor='statusOrdemPagto' fontSize={'xs'} mb={0.5}>Status Acesso</FormLabel>
+            <FormLabel htmlFor='statusOrdemPagto' fontSize={'xs'} mb={0.5}>Status</FormLabel>
             <Select fontSize={'xs'} h={'1.7rem'} value={filters.statusOrdemPagto} onChange={handleChange}>
                 {optionsTypeOrdemPagto.map((value, key) => (
                     <option key={key} value={value}>{correlationTypeOrdemPagto(value)}</option>

@@ -21,11 +21,14 @@ import { AddNewOrdemPagto } from './AddNew'
 import { FilterComponent } from './Filters'
 
 const filterUrl = (filters: IFilters, pageNumber: number, pageSize: number) => {
-    const { nameCentroCusto, nameProvider, schedulingDateEnd, schedulingDateStart, statusOrdemPagto } = filters
+    const { nameCentroCusto, nameProvider, schedulingDateEnd, schedulingDateStart, statusOrdemPagto, setor } = filters
     let url = ''
 
     if (statusOrdemPagto && statusOrdemPagto !== 'all') {
         url += `${url ? '&' : ''}statusOrdemPagto=${statusOrdemPagto}`
+    }
+    if (setor && setor !== 'all') {
+        url += `${url ? '&' : ''}numberSetor=${setor}`
     }
     if (nameCentroCusto) {
         url += `${url ? '&' : ''}nameCentroCusto=${nameCentroCusto}`
