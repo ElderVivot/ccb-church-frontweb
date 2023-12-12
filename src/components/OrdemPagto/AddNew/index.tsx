@@ -75,6 +75,7 @@ export function AddNewOrdemPagto({ centroCusto, paymentObjective, pageNumber, fi
                 : null}
 
             <Modal
+                closeOnEsc={false}
                 closeOnOverlayClick={false}
                 isOpen={isOpen}
                 onClose={onClose}

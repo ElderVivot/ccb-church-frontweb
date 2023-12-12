@@ -58,14 +58,6 @@ export function OrdemPagto(): JSX.Element {
     const [centroCusto, setCentroCusto] = useState<{ value: string, label: string }[]>([])
     const [paymentObjective, setPaymentObjective] = useState<{ value: string, label: string }[]>([])
 
-    const { data: response, isFetching, isSuccess } = useQuery(['ordem_pagto', pageNumber, filtersExecuteFetch], async () => {
-        const response = await fetchDataOrdemPagto(`${filterUrl(filtersExecuteFetch, pageNumber, initialState.pageSize)}`)
-        return response
-    }, {
-        staleTime: 1000 * 60 * 5, // 5 minutes,
-        keepPreviousData: true
-    })
-
     useMemo(() => {
         fetchDataCentroCusto().then(responseCentroCusto => {
             const centroCustoList = []
@@ -89,8 +81,16 @@ export function OrdemPagto(): JSX.Element {
         }).catch(_ => setPaymentObjective([]))
     }, [])
 
+    const { data: response, isFetching, isSuccess } = useQuery(['ordem_pagto', pageNumber, filtersExecuteFetch], async () => {
+        const response = await fetchDataOrdemPagto(`${filterUrl(filtersExecuteFetch, pageNumber, initialState.pageSize)}`)
+        return response
+    }, {
+        staleTime: 1000 * 60 * 5, // 5 minutes,
+        keepPreviousData: true
+    })
+
     const data: IOrdemPagto[] = useMemo(() => isSuccess ? response?.data : [], [response, isSuccess])
-    const columns: Column<IOrdemPagto>[] = useMemo(() => columnsHeader(pageNumber, filtersExecuteFetch, centroCusto, paymentObjective), [])
+    const columns: Column<IOrdemPagto>[] = useMemo(() => columnsHeader(pageNumber, filtersExecuteFetch, centroCusto, paymentObjective), [pageNumber, filtersExecuteFetch, centroCusto, paymentObjective])
     const defaultColumn = useMemo(() => ({ Filter: DefaultColumnFilter, disableFilters: false }), [])
 
     const tableInstance = useTable<IOrdemPagto>(

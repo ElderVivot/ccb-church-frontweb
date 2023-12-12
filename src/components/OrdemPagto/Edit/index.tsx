@@ -98,6 +98,7 @@ export function EditOrdemPagto(props: IProps): JSX.Element {
                 ? <Tooltip label='Editar Ordem Pagto' ><Button onClick={onOpen} bg={'transparent'} m={0} p={0} border={0} size='sm' iconSpacing={0} leftIcon={<FaEdit />}></Button></Tooltip>
                 : null}
             <Modal
+                closeOnEsc={false}
                 closeOnOverlayClick={false}
                 isOpen={isOpen}
                 onClose={onClose}
