@@ -7,7 +7,6 @@ import { useMutation, useQueryClient } from 'react-query'
 import { putOrdemPagto } from '@api/OrdemPagto'
 import { IOrdemPagto } from '@api/OrdemPagto/IOrdemPagto'
 import { Button, Modal, ModalOverlay, ModalContent, FormErrorMessage, ModalHeader, Input, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, FormControl, FormLabel, Box, Tooltip } from '@chakra-ui/react'
-import { IconEdit } from '@components/_Icons/edit'
 import { LoadingWithoutPercent } from '@components/_Loading'
 import { useAuth } from '@context/AuthContext'
 
@@ -219,10 +218,10 @@ export function EditOrdemPagto(props: IProps): JSX.Element {
                                     <Button size={'sm'} colorScheme='green' mr={3} isDisabled={isSubmitting} type='submit'>Salvar</Button>
                                     <Button size={'sm'} colorScheme='orange' onClick={onClose}>Cancelar</Button>
                                 </ModalFooter>
-                                <Box>
+                                {/* <Box>
                                     <pre style={{ fontSize: '9px' }}>{JSON.stringify(values, null, 2)}</pre>
                                     <pre style={{ fontSize: '9px' }}>{JSON.stringify(errors, null, 2)}</pre>
-                                </Box>
+                                </Box> */}
                             </ModalContent>
                         </form>
                     )}
