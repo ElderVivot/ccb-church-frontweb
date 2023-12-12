@@ -138,11 +138,11 @@ export function EditOrdemPagto(props: IProps): JSX.Element {
                         <form onSubmit={handleSubmit}>
                             <ModalOverlay />
 
-                            <ModalContent bg={'gray.100'}>
+                            <ModalContent bg={'indigo.1'}>
 
                                 <ModalHeader />
                                 <ModalCloseButton />
-                                <ModalBody pb={6}>
+                                <ModalBody pb={6} gap={1} display={'flex'} flexDirection={'column'}>
                                     <FormSchedulingDate errors={errors} values={values} handleChange={handleChange} setFieldTouched={setFieldTouched} handleBlur={handleBlur} />
                                     <FormIdCentroCusto selectOptions={centroCusto} errors={errors} values={values} handleChange={handleChange} setFieldTouched={setFieldTouched} handleBlur={handleBlur} />
                                     <Box display={'flex'}>

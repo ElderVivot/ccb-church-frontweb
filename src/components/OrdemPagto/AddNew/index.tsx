@@ -114,7 +114,7 @@ export function AddNewOrdemPagto({ centroCusto, paymentObjective, pageNumber, fi
                         <form onSubmit={handleSubmit}>
                             <ModalOverlay />
 
-                            <ModalContent bg={'gray.100'}>
+                            <ModalContent bg={'indigo.1'}>
                                 <ModalHeader />
                                 <ModalCloseButton />
                                 <ModalBody pb={6} gap={1} display={'flex'} flexDirection={'column'}>
