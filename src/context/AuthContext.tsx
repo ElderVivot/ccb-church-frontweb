@@ -84,7 +84,7 @@ export const ProtectRoute = ({ children }) => {
         )
     }
 
-    if (!loading && !isAuthenticated && router.isReady &&  && router.pathname !== '/' && router.pathname.indexOf('_public') < 0) {
+    if (!loading && !isAuthenticated && router.isReady && router.pathname !== '/' && router.pathname.indexOf('_public') < 0) {
         return (
             <LayoutPublic title='CCB - Sem Acesso' >
                 <Flex
