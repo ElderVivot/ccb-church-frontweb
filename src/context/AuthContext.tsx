@@ -76,7 +76,7 @@ export const ProtectRoute = ({ children }) => {
     const { isAuthenticated, loading } = useAuth()
     const router = useRouter()
 
-    if (loading && router.pathname !== '/login' && router.pathname !== '/' && router.pathname.indexOf('_public') < 0) {
+    if (loading && router.pathname !== '/' && router.pathname.indexOf('_public') < 0) {
         return (
             <LayoutDefault title='CCB - Carregando'>
                 <Heading ml={2} as='h3' size='md'>Carregando...</Heading>
@@ -84,7 +84,7 @@ export const ProtectRoute = ({ children }) => {
         )
     }
 
-    if (!loading && !isAuthenticated && router.isReady && router.pathname !== '/login' && router.pathname !== '/' && router.pathname.indexOf('_public') < 0) {
+    if (!loading && !isAuthenticated && router.isReady &&  && router.pathname !== '/' && router.pathname.indexOf('_public') < 0) {
         return (
             <LayoutPublic title='CCB - Sem Acesso' >
                 <Flex
@@ -102,7 +102,7 @@ export const ProtectRoute = ({ children }) => {
                         rounded={4}
                     >
                         <Text fontWeight={500} m={5}>
-                            Você não possui acesso à essa página, faça o login <LinkNext href={'/login'}><Link fontWeight={600} fontStyle='italic'>clicando aqui</Link></LinkNext>
+                            Você não possui acesso à essa página, faça o login <LinkNext href={'/'}><Link fontWeight={600} fontStyle='italic'>clicando aqui</Link></LinkNext>
                         </Text>
                     </Stack>
                 </Flex>
