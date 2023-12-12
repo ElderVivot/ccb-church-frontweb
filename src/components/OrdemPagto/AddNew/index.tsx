@@ -69,7 +69,10 @@ export function AddNewOrdemPagto({ centroCusto, paymentObjective, pageNumber, fi
     return (
         <>
             <LoadingWithoutPercent isOpenWithoutPercent={isOpenWithoutPercent} onCloseWithoutPercent={onCloseWithoutPercent} />
-            <Button onClick={onOpen} size='xs' colorScheme={'blue'}>Adicionar</Button>
+
+            {user.permissions.indexOf('ordem_pagto=create') >= 0
+                ? <Button onClick={onOpen} size='xs' colorScheme={'blue'}>Adicionar</Button>
+                : null}
 
             <Modal
                 closeOnOverlayClick={false}

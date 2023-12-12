@@ -1,12 +1,15 @@
 import axios, { AxiosResponse } from 'axios'
 import { Formik } from 'formik'
-import { PropsWithChildren } from 'react'
+import { useState } from 'react'
+import { FaEdit } from 'react-icons/fa'
 import { useMutation, useQueryClient } from 'react-query'
 
 import { putOrdemPagto } from '@api/OrdemPagto'
 import { IOrdemPagto } from '@api/OrdemPagto/IOrdemPagto'
-import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, Input, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, FormControl, FormLabel, Box } from '@chakra-ui/react'
+import { Button, Modal, ModalOverlay, ModalContent, FormErrorMessage, ModalHeader, Input, ModalCloseButton, ModalBody, ModalFooter, useDisclosure, FormControl, FormLabel, Box, Tooltip } from '@chakra-ui/react'
 import { IconEdit } from '@components/_Icons/edit'
+import { LoadingWithoutPercent } from '@components/_Loading'
+import { useAuth } from '@context/AuthContext'
 
 import { FormAdditionalDescription } from '../_Components/FormAdditionalDescription'
 import { FormAmount } from '../_Components/FormAmount'
@@ -18,14 +21,14 @@ import { FormNumberNote } from '../_Components/FormNumberNote'
 import { FormNumberOrder } from '../_Components/FormNumberOrder'
 import { FormSchedulingDate } from '../_Components/FormSchedulingDate'
 import { FormPayment } from '../_Components/FormTypePayment'
-import { IFilters } from '../_interfaces'
 import { validationSchemaOrdemPagto } from '../_validation_schema'
 
-interface IProps extends PropsWithChildren<object> {
-    rowData: IOrdemPagto,
-    tenant: string
+interface IProps {
+    rowData: IOrdemPagto
     pageNumber: number
-    filtersExecuteFetch: IFilters
+    filtersExecuteFetch: any
+    centroCusto: { value: string, label: string }[]
+    paymentObjective: { value: string, label: string }[]
 }
 
 async function uploadDocument(fileSave: File) {
@@ -57,14 +60,19 @@ async function uploadDocument(fileSave: File) {
     }
 }
 
-export function EditCompanieRoutine(props: IProps): JSX.Element {
+export function EditOrdemPagto(props: IProps): JSX.Element {
+    const { user } = useAuth()
     const queryClient = useQueryClient()
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [fileBoleto, setFileBoleto] = useState<File>()
+    const [fileNF, setFileNF] = useState<File>()
+    const [fileOrder, setFileOrder] = useState<File>()
+    const { isOpen: isOpenWithoutPercent, onOpen: onOpenWithoutPercent, onClose: onCloseWithoutPercent } = useDisclosure()
 
-    const { rowData: accessPortals, tenant, pageNumber, filtersExecuteFetch } = props
+    const { rowData: ordemPagto, pageNumber, filtersExecuteFetch, centroCusto, paymentObjective } = props
 
-    const { mutateAsync: updateCompanieRoutine } = useMutation(async (data: IOrdemPagto) => {
-        return await putOrdemPagto(data, tenant)
+    const { mutateAsync: updateOrdemPagto } = useMutation(async (data: IOrdemPagto) => {
+        return await putOrdemPagto(data)
     }, {
         onSuccess: ({ data: newData }) => {
             console.log(newData)
@@ -84,21 +92,26 @@ export function EditCompanieRoutine(props: IProps): JSX.Element {
 
     return (
         <>
-            <Button onClick={onOpen} bg={'transparent'} m={0} p={0} border={0} size='sm' iconSpacing={0} leftIcon={<IconEdit />}></Button>
+            <LoadingWithoutPercent isOpenWithoutPercent={isOpenWithoutPercent} onCloseWithoutPercent={onCloseWithoutPercent} />
 
+            {user.permissions.indexOf('ordem_pagto=create') >= 0
+
+                ? <Tooltip label='Editar Ordem Pagto' ><Button onClick={onOpen} bg={'transparent'} m={0} p={0} border={0} size='sm' iconSpacing={0} leftIcon={<FaEdit />}></Button></Tooltip>
+                : null}
             <Modal
                 closeOnOverlayClick={false}
                 isOpen={isOpen}
                 onClose={onClose}
-                size={'xl'}
+                size={'2xl'}
             >
                 <Formik
                     enableReinitialize={true}
                     initialValues={
-                        { ...accessPortals }
+                        { ...ordemPagto }
                     }
                     validationSchema={validationSchemaOrdemPagto}
                     onSubmit={async (values, { setSubmitting }) => {
+                        values.OrdemPagtoCCustos = []
                         try {
                             setSubmitting(true)
                             onOpenWithoutPercent()
@@ -107,13 +120,12 @@ export function EditCompanieRoutine(props: IProps): JSX.Element {
                             if (fileNF) values.urlNF = await uploadDocument(fileNF)
                             if (fileOrder) values.urlOrder = await uploadDocument(fileOrder)
 
-                            values.idUser = user.idUser
                             values.OrdemPagtoCCustos.push({
                                 idCentroCusto: values.idCentroCusto,
                                 amount: values.amountOrdemPagto.toFixed(2).toString()
                             })
 
-                            await postOrdemPagto(values)
+                            await updateOrdemPagto(values)
                             await queryClient.invalidateQueries(['ordem_pagto', pageNumber, filtersExecuteFetch])
                             setSubmitting(false)
                             onCloseWithoutPercent()
@@ -123,7 +135,7 @@ export function EditCompanieRoutine(props: IProps): JSX.Element {
                         }
                     }}
                 >
-                    {({ values, errors, handleChange, handleBlur, setFieldTouched, handleSubmit, isSubmitting }) => (
+                    {({ values, errors, handleChange, handleBlur, setFieldValue, setFieldTouched, handleSubmit, isSubmitting }) => (
                         <form onSubmit={handleSubmit}>
                             <ModalOverlay />
 
@@ -207,10 +219,10 @@ export function EditCompanieRoutine(props: IProps): JSX.Element {
                                     <Button size={'sm'} colorScheme='green' mr={3} isDisabled={isSubmitting} type='submit'>Salvar</Button>
                                     <Button size={'sm'} colorScheme='orange' onClick={onClose}>Cancelar</Button>
                                 </ModalFooter>
-                                {/* <Box>
+                                <Box>
                                     <pre style={{ fontSize: '9px' }}>{JSON.stringify(values, null, 2)}</pre>
                                     <pre style={{ fontSize: '9px' }}>{JSON.stringify(errors, null, 2)}</pre>
-                                </Box> */}
+                                </Box>
                             </ModalContent>
                         </form>
                     )}

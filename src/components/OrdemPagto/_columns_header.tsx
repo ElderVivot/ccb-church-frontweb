@@ -1,5 +1,4 @@
-import Link from 'next/link'
-import { FaFileAlt, FaFileInvoice, FaFileInvoiceDollar, FaFileArchive, FaFilePrescription, FaFileContract, FaFileDownload } from 'react-icons/fa'
+import { FaFileAlt, FaFileInvoiceDollar, FaFilePrescription, FaFileContract, FaFileDownload } from 'react-icons/fa'
 import { CellProps, Column } from 'react-table'
 
 import { IOrdemPagto } from '@api/OrdemPagto/IOrdemPagto'
@@ -8,7 +7,7 @@ import { formatDate } from '@common/utils/functions'
 
 import { IFilters } from './_interfaces'
 // import { AddNewAccessPortals } from './AddNew'
-import { EditCompanieRoutine } from './Edit'
+import { EditOrdemPagto } from './Edit'
 
 interface ICellProps extends CellProps<any> {
     value: string
@@ -16,7 +15,7 @@ interface ICellProps extends CellProps<any> {
     filtersExecuteFetch: IFilters
 }
 
-export const columnsHeader = (): Column<IOrdemPagto>[] => {
+export const columnsHeader = (pageNumber: number, filtersExecuteFetch: IFilters, centroCusto, paymentObjective): Column<IOrdemPagto>[] => {
     return [
         {
             Header: 'Data pra Pagto',
@@ -98,7 +97,7 @@ export const columnsHeader = (): Column<IOrdemPagto>[] => {
             Header: (): JSX.Element => {
                 return (
                     <Box display={'flex'} alignItems={'center'}>
-                        <Text >Arquivos</Text>
+                        <Text >Arquivos / Ações</Text>
                     </Box>
                 )
             },
@@ -108,7 +107,7 @@ export const columnsHeader = (): Column<IOrdemPagto>[] => {
             disableSortBy: true,
             Cell: ({ row }: ICellProps): JSX.Element => {
                 return (
-                    <Flex justifyContent={'center'} alignItems={'center'}>
+                    <Flex justifyContent={'center'} alignItems={'center'} >
                         <Tooltip label='Abrir Boleto' >
                             <Button as='a' iconSpacing={0} m={0} p={0} border={0} size='sm' bg={'transparent'}
                                 href={row.original.urlBoleto} target="_blank"
@@ -133,12 +132,17 @@ export const columnsHeader = (): Column<IOrdemPagto>[] => {
                                 isDisabled={!row.original.urlDataToPayment} leftIcon={<FaFileAlt />}
                             />
                         </Tooltip>
-                        <Tooltip label='Abrir Comprovante Pagto' mr={3}>
+                        <Tooltip label='Abrir Comprovante Pagto' mr={2}>
                             <Button as='a' iconSpacing={0} m={0} p={0} border={0} size='sm' bg={'transparent'}
                                 href={row.original.urlPaymentProof} target="_blank" rel="noopener noreferrer"
                                 isDisabled={!row.original.urlPaymentProof} leftIcon={<FaFileDownload />}
                             />
                         </Tooltip>
+                        <EditOrdemPagto rowData={{
+                            ...row.original,
+                            schedulingDate: row.original.schedulingDate.substring(0, 10),
+                            amountOrdemPagto: Number(row.original.amountOrdemPagto)
+                        }} pageNumber={pageNumber} filtersExecuteFetch={filtersExecuteFetch} centroCusto={centroCusto} paymentObjective={paymentObjective} />
 
                     </Flex>
                 )

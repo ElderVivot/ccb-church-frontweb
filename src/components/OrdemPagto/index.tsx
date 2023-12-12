@@ -1,15 +1,13 @@
-import { PropsWithChildren, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useTable, useSortBy, Column, useFilters, usePagination, useRowSelect } from 'react-table'
 
 import { fetchDataCentroCusto } from '@api/CentroCusto'
-import { ICentroCusto } from '@api/CentroCusto/ICentroCusto'
 import { fetchDataOrdemPagto } from '@api/OrdemPagto'
 import { IOrdemPagto } from '@api/OrdemPagto/IOrdemPagto'
 import { fetchDataPaymentObjective } from '@api/PaymentOjective'
 import { Search2Icon } from '@chakra-ui/icons'
 import { Box, Heading, Text, Flex, Button, Spacer, ButtonGroup } from '@chakra-ui/react'
-import { makeDateImplementation } from '@common/adapters/date/date-factory'
 import { THeaderGroup } from '@common/types/ReactTable'
 import { formatDate } from '@common/utils/functions'
 import { DefaultColumnFilter } from '@components/_ColumnFilter'
@@ -68,8 +66,31 @@ export function OrdemPagto(): JSX.Element {
         keepPreviousData: true
     })
 
+    useMemo(() => {
+        fetchDataCentroCusto().then(responseCentroCusto => {
+            const centroCustoList = []
+            setCentroCusto([])
+            // console.log(responseCentroCusto.data)
+            for (const cc of responseCentroCusto.data) {
+                centroCustoList.push({ value: cc.idCentroCusto, label: `${cc.nameCentroCusto} | ${cc.codeCentroCusto}` })
+            }
+            setCentroCusto(centroCustoList)
+        }).catch(_ => setCentroCusto([]))
+    }, [])
+
+    useMemo(() => {
+        fetchDataPaymentObjective().then(responsePayment => {
+            const paymentObjectiveList = []
+            setPaymentObjective([])
+            for (const payment of responsePayment.data) {
+                paymentObjectiveList.push({ value: payment.idPaymentObjective, label: payment.name })
+            }
+            setPaymentObjective(paymentObjectiveList)
+        }).catch(_ => setPaymentObjective([]))
+    }, [])
+
     const data: IOrdemPagto[] = useMemo(() => isSuccess ? response?.data : [], [response, isSuccess])
-    const columns: Column<IOrdemPagto>[] = useMemo(() => columnsHeader(), [])
+    const columns: Column<IOrdemPagto>[] = useMemo(() => columnsHeader(pageNumber, filtersExecuteFetch, centroCusto, paymentObjective), [])
     const defaultColumn = useMemo(() => ({ Filter: DefaultColumnFilter, disableFilters: false }), [])
 
     const tableInstance = useTable<IOrdemPagto>(
@@ -111,29 +132,6 @@ export function OrdemPagto(): JSX.Element {
 
     useEffect(() => setPageNumber(pageIndex), [pageIndex])
     useEffect(() => setPageNumber(0), [filters])
-
-    useMemo(() => {
-        fetchDataCentroCusto().then(responseCentroCusto => {
-            const centroCustoList = []
-            setCentroCusto([])
-            // console.log(responseCentroCusto.data)
-            for (const cc of responseCentroCusto.data) {
-                centroCustoList.push({ value: cc.idCentroCusto, label: `${cc.nameCentroCusto} | ${cc.codeCentroCusto}` })
-            }
-            setCentroCusto(centroCustoList)
-        }).catch(_ => setCentroCusto([]))
-    }, [])
-
-    useMemo(() => {
-        fetchDataPaymentObjective().then(responsePayment => {
-            const paymentObjectiveList = []
-            setPaymentObjective([])
-            for (const payment of responsePayment.data) {
-                paymentObjectiveList.push({ value: payment.idPaymentObjective, label: payment.name })
-            }
-            setPaymentObjective(paymentObjectiveList)
-        }).catch(_ => setPaymentObjective([]))
-    }, [])
 
     if (isFetching || !isSuccess) {
         return (
