@@ -43,10 +43,10 @@ export const columnsHeader = (pageNumber: number, filtersExecuteFetch: IFilters,
             width: '5%',
             Cell: ({ value }: ICellProps): JSX.Element => {
                 if (value === 'OPENED') return <Box bg={'yellow.400'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Em Aberto</Box>
-                else if (value === 'PAYED') return <Box bg={'orange.400'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Pago</Box>
+                else if (value === 'PAYED') return <Box bg={'cyan.8'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Pago</Box>
                 else if (value === 'CANCELED') return <Box bg={'red.400'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Cancelado</Box>
                 else if (value === 'DELETED') return <Box bg={'red.400'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Deletado</Box>
-                else if (value === 'LAUNCHED_SYSTEM') return <Box bg={'green.400'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Lançado</Box>
+                else if (value === 'LAUNCHED_SYSTEM') return <Box bg={'green.500'} color={'white'} rounded={5} my={0.5} mx={0.5} fontWeight={500}>Lançado no SIGA</Box>
             },
             disableFilters: true
         },
