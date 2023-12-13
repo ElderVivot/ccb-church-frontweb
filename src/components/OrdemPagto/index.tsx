@@ -10,6 +10,7 @@ import { Search2Icon } from '@chakra-ui/icons'
 import { Box, Heading, Text, Flex, Button, Spacer, ButtonGroup } from '@chakra-ui/react'
 import { THeaderGroup } from '@common/types/ReactTable'
 import { formatDate } from '@common/utils/functions'
+import { CheckboxComponent } from '@components/_CheckboxTable'
 import { DefaultColumnFilter } from '@components/_ColumnFilter'
 import { PaginationComponent } from '@components/_Pagination'
 import { TableComponent } from '@components/_Table/'
@@ -19,6 +20,7 @@ import { initialState as initialStateData } from './_initial_state'
 import { IFilters } from './_interfaces'
 import { AddNewOrdemPagto } from './AddNew'
 import { FilterComponent } from './Filters'
+import { UpdateStatusOrdemPagto } from './UpdateStatus'
 
 const filterUrl = (filters: IFilters, pageNumber: number, pageSize: number) => {
     const { nameCentroCusto, nameProvider, schedulingDateEnd, schedulingDateStart, statusOrdemPagto, setor } = filters
@@ -108,29 +110,28 @@ export function OrdemPagto(): JSX.Element {
             manualPagination: true,
             pageCount: isSuccess ? Math.ceil(Number(response.headers['x-total-count']) / initialState.pageSize) : null
         },
-        useFilters, useSortBy, usePagination, useRowSelect
-        // hooks => {
-        //     hooks.visibleColumns.push(columns => [
-        //         {
-        //             id: 'selection',
-        //             width: '1.5%',
-        //             disableFilters: true,
-        //             disableSortBy: true,
-        //             Header: ({ getToggleAllRowsSelectedProps }) => (
-        //                 <CheckboxComponent {...getToggleAllRowsSelectedProps()} />
-        //             ),
-        //             Cell: ({ row }) => <CheckboxComponent {...row.getToggleRowSelectedProps()} />
-        //         },
-        //         ...columns
-        //     ])
-        // }
+        useFilters, useSortBy, usePagination, useRowSelect,
+        hooks => {
+            hooks.visibleColumns.push(columns => [
+                {
+                    id: 'selection',
+                    width: '1.5%',
+                    disableFilters: true,
+                    disableSortBy: true,
+                    Header: ({ getToggleAllRowsSelectedProps }) => (
+                        <CheckboxComponent {...getToggleAllRowsSelectedProps()} />
+                    ),
+                    Cell: ({ row }) => <CheckboxComponent {...row.getToggleRowSelectedProps()} />
+                },
+                ...columns
+            ])
+        }
     )
 
     const {
         getTableProps, getTableBodyProps, prepareRow, page, nextPage, previousPage, canNextPage, canPreviousPage,
-        pageOptions, state: { pageIndex }, gotoPage, pageCount
+        pageOptions, state: { pageIndex }, gotoPage, pageCount, selectedFlatRows
     } = tableInstance
-
     const headerGroups: THeaderGroup<object>[] = tableInstance.headerGroups
 
     useEffect(() => setPageNumber(pageIndex), [pageIndex])
@@ -152,6 +153,7 @@ export function OrdemPagto(): JSX.Element {
                 </Flex>
                 <Spacer />
                 <ButtonGroup mr={5} mb={2}>
+                    <UpdateStatusOrdemPagto selectedFlatRows={selectedFlatRows} filtersExecuteFetch={filtersExecuteFetch} pageNumber={pageNumber} />
                     <AddNewOrdemPagto centroCusto={centroCusto} paymentObjective={paymentObjective} filtersExecuteFetch={filtersExecuteFetch} pageNumber={pageNumber} />
                 </ButtonGroup>
             </Flex>
@@ -163,7 +165,7 @@ export function OrdemPagto(): JSX.Element {
             />
             <PaginationComponent previousPage={previousPage} nextPage={nextPage} canPreviousPage={canPreviousPage} canNextPage={canNextPage}
                 pageOptions={pageOptions} pageIndex={pageIndex} gotoPage={gotoPage} pageCount={pageCount}
-                pageSize={pageNumber + 1 === pageOptions.length ? Number(response.headers['x-total-count']) % initialState.pageSize : initialState.pageSize}
+                pageSize={pageNumber + 1 === pageOptions.length || pageNumber === 0 ? Number(response.headers['x-total-count']) % initialState.pageSize : initialState.pageSize}
             />
         </Box>
     )

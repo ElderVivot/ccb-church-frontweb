@@ -126,12 +126,12 @@ export const columnsHeader = (pageNumber: number, filtersExecuteFetch: IFilters,
                                 isDisabled={!row.original.urlOrder} leftIcon={<FaFilePrescription />}
                             />
                         </Tooltip>
-                        <Tooltip label='Abrir Dados Pra Pagto' >
+                        {/* <Tooltip label='Abrir Dados Pra Pagto' >
                             <Button as='a' iconSpacing={0} m={0} p={0} border={0} size='sm' bg={'transparent'}
                                 href={row.original.urlDataToPayment} target="_blank" rel="noopener noreferrer"
                                 isDisabled={!row.original.urlDataToPayment} leftIcon={<FaFileAlt />}
                             />
-                        </Tooltip>
+                        </Tooltip> */}
                         <Tooltip label='Abrir Comprovante Pagto' mr={2}>
                             <Button as='a' iconSpacing={0} m={0} p={0} border={0} size='sm' bg={'transparent'}
                                 href={row.original.urlPaymentProof} target="_blank" rel="noopener noreferrer"

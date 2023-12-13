@@ -5,7 +5,7 @@ export interface IOrdemPagto {
     createdAt?: Date
     updatedAt?: Date
     schedulingDate: string
-    status: 'OPENED' | 'CANCELED' | 'PAYED' | 'DELETED' | 'LAUNCHED_SYSTEM'
+    status: 'OPENED' | 'CANCELED' | 'PAYED' | 'DELETED' | 'LAUNCHED_SYSTEM' | string
     nameProvider: string
     formPayment: 'BOLETO' | 'PIX' | 'TED'
     dataToPayment: string

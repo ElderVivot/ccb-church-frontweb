@@ -66,6 +66,7 @@ export function EditOrdemPagto(props: IProps): JSX.Element {
     const [fileBoleto, setFileBoleto] = useState<File>()
     const [fileNF, setFileNF] = useState<File>()
     const [fileOrder, setFileOrder] = useState<File>()
+    const [filePaymentProof, setFilePaymentProof] = useState<File>()
     const { isOpen: isOpenWithoutPercent, onOpen: onOpenWithoutPercent, onClose: onCloseWithoutPercent } = useDisclosure()
 
     const { rowData: ordemPagto, pageNumber, filtersExecuteFetch, centroCusto, paymentObjective } = props
@@ -74,7 +75,6 @@ export function EditOrdemPagto(props: IProps): JSX.Element {
         return await putOrdemPagto(data)
     }, {
         onSuccess: ({ data: newData }) => {
-            console.log(newData)
             queryClient.setQueryData(['ordem_pagto', pageNumber, filtersExecuteFetch], (oldData: AxiosResponse<IOrdemPagto[], any>): AxiosResponse<IOrdemPagto[], any> => {
                 const dataToReturn = { ...oldData }
                 dataToReturn.data = oldData.data.map((old) => {
@@ -119,6 +119,7 @@ export function EditOrdemPagto(props: IProps): JSX.Element {
                             if (fileBoleto) values.urlBoleto = await uploadDocument(fileBoleto)
                             if (fileNF) values.urlNF = await uploadDocument(fileNF)
                             if (fileOrder) values.urlOrder = await uploadDocument(fileOrder)
+                            if (filePaymentProof) values.urlPaymentProof = await uploadDocument(filePaymentProof)
 
                             values.OrdemPagtoCCustos.push({
                                 idCentroCusto: values.idCentroCusto,
@@ -205,6 +206,24 @@ export function EditOrdemPagto(props: IProps): JSX.Element {
                                                     const dataFile = e.currentTarget.files[0]
                                                     setFieldValue('urlNF', dataFile?.name)
                                                     setFileNF(dataFile)
+                                                }}
+                                                onBlur={handleBlur}
+                                                type={'file'}
+                                                accept='.pdf,.png,.jpeg,.jpg'
+                                                fontSize={'xs'}
+                                            />
+                                        </Box>
+                                    </FormControl>
+
+                                    <FormControl display={'flex'} flexDirection={'row'} >
+                                        <FormLabel alignSelf={'center'} fontSize={'xs'} w={'100px'} fontWeight={500}>Arquivo Comprovante Pagto:</FormLabel>
+                                        <Box >
+                                            <Input width={'500px'}
+                                                id='urlPaymentProof'
+                                                onChange={e => {
+                                                    const dataFile = e.currentTarget.files[0]
+                                                    setFieldValue('urlPaymentProof', dataFile?.name)
+                                                    setFilePaymentProof(dataFile)
                                                 }}
                                                 onBlur={handleBlur}
                                                 type={'file'}
