@@ -27,7 +27,7 @@ const filterUrl = (filters: IFilters, pageNumber: number, pageSize: number) => {
     let url = ''
 
     if (statusOrdemPagto && statusOrdemPagto !== 'all') {
-        url += `${url ? '&' : ''}statusOrdemPagto=${statusOrdemPagto}`
+        url += `${url ? '&' : ''}status=${statusOrdemPagto}`
     }
     if (setor && setor !== 'all') {
         url += `${url ? '&' : ''}numberSetor=${setor}`
@@ -51,11 +51,13 @@ export function OrdemPagto(): JSX.Element {
     const today = new Date()
     const [filters, setFilters] = useState<IFilters>({
         schedulingDateStart: formatDate(new Date(today.getFullYear(), today.getMonth(), 1), '', 'yyyy-MM-dd'),
-        schedulingDateEnd: formatDate(today, '', 'yyyy-MM-dd')
+        schedulingDateEnd: formatDate(today, '', 'yyyy-MM-dd'),
+        statusOrdemPagto: 'OPENED'
     })
     const [filtersExecuteFetch, setFiltersExecuteFetch] = useState<IFilters>({
         schedulingDateStart: formatDate(new Date(today.getFullYear(), today.getMonth(), 1), '', 'yyyy-MM-dd'),
-        schedulingDateEnd: formatDate(today, '', 'yyyy-MM-dd')
+        schedulingDateEnd: formatDate(today, '', 'yyyy-MM-dd'),
+        statusOrdemPagto: 'OPENED'
     })
 
     const initialState = useMemo(() => initialStateData, [])
