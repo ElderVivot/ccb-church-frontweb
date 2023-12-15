@@ -92,8 +92,9 @@ export function OrdemPagto(): JSX.Element {
         const response = await fetchDataOrdemPagto(`${filterUrl(filtersExecuteFetch, pageNumber, initialState.pageSize)}`)
         return response
     }, {
-        staleTime: 1000 * 60 * 5, // 5 minutes,
-        keepPreviousData: true
+        staleTime: 1000 * 60 * 10, // 10 minutes,
+        keepPreviousData: true,
+        refetchOnWindowFocus: false
     })
 
     const data: IOrdemPagto[] = useMemo(() => isSuccess ? response?.data : [], [response, isSuccess])
