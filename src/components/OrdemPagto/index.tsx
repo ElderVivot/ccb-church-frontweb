@@ -33,10 +33,10 @@ const filterUrl = (filters: IFilters, pageNumber: number, pageSize: number) => {
         url += `${url ? '&' : ''}numberSetor=${setor}`
     }
     if (nameCentroCusto) {
-        url += `${url ? '&' : ''}nameCentroCusto=${nameCentroCusto}`
+        url += `${url ? '&' : ''}nameCentroCusto=${nameCentroCusto.toUpperCase().replaceAll(' ', '%20')}`
     }
     if (nameProvider) {
-        url += `${url ? '&' : ''}nameProvider=${nameProvider}`
+        url += `${url ? '&' : ''}nameProvider=${nameProvider.toUpperCase().replaceAll(' ', '%20')}`
     }
     if (schedulingDateStart && schedulingDateEnd) {
         url += `${url ? '&' : ''}schedulingDateStart=${schedulingDateStart}&schedulingDateEnd=${schedulingDateEnd}`
