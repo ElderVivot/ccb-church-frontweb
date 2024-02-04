@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import { v4 as uuid } from 'uuid'
 
 import { apiOfertasAvulsas as api } from '@services/api'
 
@@ -20,9 +21,18 @@ export const fetchDataOfertasAvulsasPerID = async (id: string): Promise<AxiosRes
 export const putOfertasAvulsasPerId = async (data: IItemOfertasAvulsasDataToFill): Promise<AxiosResponse<IOfertasAvulsasDataToFill>> => {
     try {
         const url = 'ofertas-avulsas'
+        const newDataLancs = []
         for (const [idx, lanc] of data.lancs.entries()) {
-            if (!lanc.idCentroCusto) data.lancs[idx].idCentroCusto = ''
+            if (lanc.amount > 0) {
+                const objToSave = data.lancs[idx]
+                if (!lanc.id && lanc.amount > 0) objToSave.id = uuid()
+                if (!lanc.idCentroCusto) objToSave.idCentroCusto = ''
+                if (!lanc.descriptionProof) objToSave.descriptionProof = ''
+                if (!lanc.comments) objToSave.comments = ''
+                newDataLancs.push(objToSave)
+            }
         }
+        data.lancs = newDataLancs
         const result = await api.put(url, { ...data })
         return result
     } catch (error) {

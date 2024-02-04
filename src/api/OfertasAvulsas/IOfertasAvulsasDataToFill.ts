@@ -1,10 +1,12 @@
 export interface IOfertasAvulsas {
+    id?: string
     dateMovement: Date
     amount: number
     bank: string
     receivedFrom: string
     descriptionProof: string
     idCentroCusto: string
+    comments: string
     alreadyMigrate?: number
 }
 

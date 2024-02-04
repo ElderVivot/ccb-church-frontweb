@@ -64,6 +64,7 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
     }, [responseCentroCusto, isSuccessCentroCusto])
 
     const handleSaveData = useCallback(async () => {
+        dataFetch.Item.id = id
         dataFetch.Item.updatedAt = new Date().toISOString()
         await putOfertasAvulsasPerId(dataFetch.Item)
         setDateLastUpdate(dataFetch.Item.updatedAt)
