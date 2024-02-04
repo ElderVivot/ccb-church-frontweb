@@ -10,6 +10,8 @@ export default class MyDocument extends Document {
           <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
           <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet" />
 
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
+
           <link rel="shortcut icon" href="/favicon.ico" />
           <link rel="apple-touch-icon" href="/favicon.ico"></link>
 

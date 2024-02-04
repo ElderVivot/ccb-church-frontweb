@@ -65,7 +65,7 @@ export function CentroCusto(): JSX.Element {
             <TableComponent
                 getTableProps={getTableProps} headerGroups={headerGroups}
                 getTableBodyProps={getTableBodyProps} page={page} prepareRow={prepareRow}
-                heightToSubtractOfContentBody='205px'
+                heightToSubtractOfContentBody='150px'
             />
             {/* <PaginationComponent previousPage={previousPage} nextPage={nextPage} canPreviousPage={canPreviousPage} canNextPage={canNextPage}
                 pageOptions={pageOptions} pageIndex={pageIndex} gotoPage={gotoPage} pageCount={pageCount}

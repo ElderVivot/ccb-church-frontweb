@@ -14,3 +14,11 @@ export function getAPIClient (ctx?: any): AxiosInstance {
 
     return api
 }
+
+export function getAPIOfertasAvulsas (): AxiosInstance {
+    const api = axios.create({
+        baseURL: process.env.API_HOST_OFERTAS_AVULSAS
+    })
+
+    return api
+}

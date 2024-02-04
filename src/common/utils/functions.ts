@@ -99,3 +99,11 @@ export function promiseTimeOut (time: number): Promise<string> {
         }, time)
     })
 }
+
+export function generateArrayOfLines(numberLines = 100): any[] {
+    const arrayLines = []
+    for (let i = 0; i < numberLines; i++) {
+        arrayLines.push({})
+    }
+    return arrayLines
+}

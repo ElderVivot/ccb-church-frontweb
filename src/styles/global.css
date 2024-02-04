@@ -7,3 +7,7 @@
 .react-select-custom>div:nth-child(3) {
     background: transparent !important;
 }
+
+.ht_clone_top {
+    z-index: 0;
+}
