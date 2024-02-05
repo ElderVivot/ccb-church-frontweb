@@ -5,7 +5,8 @@ export interface IOfertasAvulsas {
     bank: string
     receivedFrom: string
     descriptionProof: string
-    idCentroCusto: string
+    nameCentroCusto: string
+    idCentroCusto?: string
     comments: string
     alreadyMigrate?: number
 }

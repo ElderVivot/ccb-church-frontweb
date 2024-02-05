@@ -36,12 +36,11 @@ export const SettingsColumns: ColumnSettings[] = [
         filter: true,
         width: 200
     }, {
-        data: 'idCentroCusto',
+        data: 'nameCentroCusto',
         title: '<b>Centro de Custo</b>',
         type: 'dropdown',
         filter: true,
-        width: 200,
-        source: ['yellow', 'red', 'orange', 'green', 'blue', 'gray', 'black', 'white']
+        width: 200
     }, {
         data: 'comments',
         title: '<b>Observações</b>',

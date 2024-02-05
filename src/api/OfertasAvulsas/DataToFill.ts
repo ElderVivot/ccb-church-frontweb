@@ -6,9 +6,9 @@ import { apiOfertasAvulsas as api } from '@services/api'
 import { IOfertasAvulsasDataToFill, IItemOfertasAvulsasDataToFill } from './IOfertasAvulsasDataToFill'
 
 export const fetchDataOfertasAvulsasPerID = async (id: string): Promise<AxiosResponse<IOfertasAvulsasDataToFill, any> | null> => {
+    if (!id) return null
     try {
         const url = `ofertas-avulsas/${id}`
-        console.log(url)
         const result = await api.get<IOfertasAvulsasDataToFill>(url)
         return result
     } catch (error) {
@@ -18,7 +18,7 @@ export const fetchDataOfertasAvulsasPerID = async (id: string): Promise<AxiosRes
     }
 }
 
-export const putOfertasAvulsasPerId = async (data: IItemOfertasAvulsasDataToFill): Promise<AxiosResponse<IOfertasAvulsasDataToFill>> => {
+export const putOfertasAvulsasPerId = async (data: IItemOfertasAvulsasDataToFill, centroCustoDePara: object): Promise<AxiosResponse<IOfertasAvulsasDataToFill>> => {
     try {
         const url = 'ofertas-avulsas'
         const newDataLancs = []
@@ -26,9 +26,13 @@ export const putOfertasAvulsasPerId = async (data: IItemOfertasAvulsasDataToFill
             if (lanc.amount > 0) {
                 const objToSave = data.lancs[idx]
                 if (!lanc.id && lanc.amount > 0) objToSave.id = uuid()
-                if (!lanc.idCentroCusto) objToSave.idCentroCusto = ''
+                if (!lanc.nameCentroCusto) objToSave.nameCentroCusto = ''
                 if (!lanc.descriptionProof) objToSave.descriptionProof = ''
                 if (!lanc.comments) objToSave.comments = ''
+                const codeChurchSplit = lanc.nameCentroCusto.split('-')
+                const codeChurchLen = codeChurchSplit.length
+                const codeChurch = codeChurchSplit[codeChurchLen - 1].trim()
+                if (codeChurch) objToSave.idCentroCusto = centroCustoDePara[`${codeChurch}`]
                 newDataLancs.push(objToSave)
             }
         }

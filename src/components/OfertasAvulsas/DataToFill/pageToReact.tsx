@@ -31,6 +31,7 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
     const [dateLastUpdated, setDateLastUpdate] = useState(null)
     const [dataLanc, setDataLanc] = useState<IOfertasAvulsas[]>(null)
     const [centroCustoList, setCentroCustoList] = useState<string[]>(null)
+    const [centroCustoDePara, setCentroCustoDePara] = useState<object>({})
 
     const { data: response, isFetching, isSuccess } = useQuery(['ofertas_avulsas', id], async () => {
         const response = await fetchDataOfertasAvulsasPerID(id)
@@ -60,13 +61,18 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
     useMemo(() => {
         if (isSuccessCentroCusto) {
             setCentroCustoList(responseCentroCusto?.data?.map(el => el.nameCentroCusto + ' - ' + el.codeCentroCusto))
+            const centroCusto = {}
+            for (const el of responseCentroCusto?.data) {
+                centroCusto[`${el.codeCentroCusto}`] = el.idCentroCusto
+            }
+            setCentroCustoDePara(centroCusto)
         }
     }, [responseCentroCusto, isSuccessCentroCusto])
 
     const handleSaveData = useCallback(async () => {
         dataFetch.Item.id = id
         dataFetch.Item.updatedAt = new Date().toISOString()
-        await putOfertasAvulsasPerId(dataFetch.Item)
+        await putOfertasAvulsasPerId(dataFetch.Item, centroCustoDePara)
         setDateLastUpdate(dataFetch.Item.updatedAt)
         setExistChange(false)
         toast({
@@ -75,7 +81,7 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
             duration: 5000,
             isClosable: true
         })
-    }, [dataFetch, toast])
+    }, [dataFetch, toast, centroCustoDePara, id])
 
     const generateNewLines = async (qtdLines = 10) => {
         dataFetch.Item.updatedAt = new Date().toISOString()
@@ -149,9 +155,9 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
                             data: dataLanc,
                             language: 'pt-BR',
                             columns: SettingsColumns.map(el => {
-                                if (el.data === 'idCentroCusto') {
+                                if (el.data === 'nameCentroCusto') {
                                     return {
-                                        data: 'idCentroCusto',
+                                        data: 'nameCentroCusto',
                                         title: '<b>Centro de Custo</b>',
                                         type: 'dropdown',
                                         filter: true,
