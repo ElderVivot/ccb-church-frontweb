@@ -43,6 +43,7 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
     })
 
     const dataFetch: IOfertasAvulsasDataToFill = useMemo(() => {
+        console.log('oiiii')
         if (isSuccess) {
             setDataLanc(response?.data?.Item?.lancs)
             return response?.data
@@ -72,6 +73,7 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
     const handleSaveData = useCallback(async () => {
         dataFetch.Item.id = id
         dataFetch.Item.updatedAt = new Date().toISOString()
+        dataFetch.Item.lancs = dataLanc
         await putOfertasAvulsasPerId(dataFetch.Item, centroCustoDePara)
         setDateLastUpdate(dataFetch.Item.updatedAt)
         setExistChange(false)
@@ -81,7 +83,7 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
             duration: 5000,
             isClosable: true
         })
-    }, [dataFetch, toast, centroCustoDePara, id])
+    }, [dataFetch, toast, centroCustoDePara, id, dataLanc])
 
     const generateNewLines = async (qtdLines = 10) => {
         dataFetch.Item.updatedAt = new Date().toISOString()
