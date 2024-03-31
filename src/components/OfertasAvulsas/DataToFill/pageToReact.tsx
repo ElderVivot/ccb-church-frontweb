@@ -29,7 +29,7 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
     const toast = useToast()
     const [existChange, setExistChange] = useState(false)
     const [dateLastUpdated, setDateLastUpdate] = useState(null)
-    const [dataLanc, setDataLanc] = useState<IOfertasAvulsas[]>(null)
+    const [dataLanc, setDataLanc] = useState<IOfertasAvulsas[]>([])
     const [centroCustoList, setCentroCustoList] = useState<string[]>(null)
     const [centroCustoDePara, setCentroCustoDePara] = useState<object>({})
 
@@ -45,7 +45,7 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
     const dataFetch: IOfertasAvulsasDataToFill = useMemo(() => {
         console.log('oiiii')
         if (isSuccess) {
-            setDataLanc(response?.data?.Item?.lancs)
+            setDataLanc(response?.data?.Item?.lancs || [])
             return response?.data
         } else return {}
     }, [response, isSuccess])

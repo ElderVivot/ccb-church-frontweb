@@ -22,18 +22,20 @@ export const putOfertasAvulsasPerId = async (data: IItemOfertasAvulsasDataToFill
     try {
         const url = 'ofertas-avulsas'
         const newDataLancs = []
-        for (const [idx, lanc] of data.lancs.entries()) {
-            if (lanc.amount > 0) {
-                const objToSave = data.lancs[idx]
-                if (!lanc.id && lanc.amount > 0) objToSave.id = uuid()
-                if (!lanc.nameCentroCusto) objToSave.nameCentroCusto = ''
-                if (!lanc.descriptionProof) objToSave.descriptionProof = ''
-                if (!lanc.comments) objToSave.comments = ''
-                const codeChurchSplit = lanc.nameCentroCusto.split('-')
-                const codeChurchLen = codeChurchSplit.length
-                const codeChurch = codeChurchSplit[codeChurchLen - 1].trim()
-                if (codeChurch) objToSave.idCentroCusto = centroCustoDePara[`${codeChurch}`]
-                newDataLancs.push(objToSave)
+        if (data.lancs.length > 0) {
+            for (const [idx, lanc] of data.lancs.entries()) {
+                if (lanc.amount > 0) {
+                    const objToSave = data.lancs[idx]
+                    if (!lanc.id && lanc.amount > 0) objToSave.id = uuid()
+                    if (!lanc.nameCentroCusto) objToSave.nameCentroCusto = ''
+                    if (!lanc.descriptionProof) objToSave.descriptionProof = ''
+                    if (!lanc.comments) objToSave.comments = ''
+                    const codeChurchSplit = lanc.nameCentroCusto.split('-')
+                    const codeChurchLen = codeChurchSplit.length
+                    const codeChurch = codeChurchSplit[codeChurchLen - 1].trim()
+                    if (codeChurch) objToSave.idCentroCusto = centroCustoDePara[`${codeChurch}`]
+                    newDataLancs.push(objToSave)
+                }
             }
         }
         data.lancs = newDataLancs
