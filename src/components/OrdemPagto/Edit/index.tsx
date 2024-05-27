@@ -107,7 +107,7 @@ export function EditOrdemPagto(props: IProps): JSX.Element {
                 <Formik
                     enableReinitialize={true}
                     initialValues={
-                        { ...ordemPagto }
+                        { ...ordemPagto, urlOrder: ordemPagto.urlOrder || '' }
                     }
                     validationSchema={validationSchemaOrdemPagto}
                     onSubmit={async (values, { setSubmitting }) => {
@@ -167,7 +167,7 @@ export function EditOrdemPagto(props: IProps): JSX.Element {
                                                 id='urlBoleto'
                                                 onChange={e => {
                                                     const dataFile = e.currentTarget.files[0]
-                                                    setFieldValue('urlBoleto', dataFile?.name)
+                                                    setFieldValue('urlBoleto', dataFile?.name || '')
                                                     setFileBoleto(dataFile)
                                                 }}
                                                 onBlur={handleBlur}
@@ -186,7 +186,7 @@ export function EditOrdemPagto(props: IProps): JSX.Element {
                                                 id='urlOrder'
                                                 onChange={e => {
                                                     const dataFile = e.currentTarget.files[0]
-                                                    setFieldValue('urlOrder', dataFile?.name)
+                                                    setFieldValue('urlOrder', dataFile?.name || '')
                                                     setFileOrder(dataFile)
                                                 }}
                                                 onBlur={handleBlur}
@@ -238,10 +238,10 @@ export function EditOrdemPagto(props: IProps): JSX.Element {
                                     <Button size={'sm'} colorScheme='green' mr={3} isDisabled={isSubmitting} type='submit'>Salvar</Button>
                                     <Button size={'sm'} colorScheme='orange' onClick={onClose}>Cancelar</Button>
                                 </ModalFooter>
-                                {/* <Box>
+                                <Box>
                                     <pre style={{ fontSize: '9px' }}>{JSON.stringify(values, null, 2)}</pre>
                                     <pre style={{ fontSize: '9px' }}>{JSON.stringify(errors, null, 2)}</pre>
-                                </Box> */}
+                                </Box>
                             </ModalContent>
                         </form>
                     )}
