@@ -11,7 +11,6 @@ interface IProps extends PropsWithChildren<object> {
 }
 
 const optionsToFilter = [
-    'Todos',
     'Em Aberto',
     'Pago - Etapa 1',
     'Pago - Etapa 2',
