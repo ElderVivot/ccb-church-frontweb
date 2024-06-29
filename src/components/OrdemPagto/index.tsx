@@ -58,7 +58,6 @@ const filterUrl = (filters: IFilters, pageNumber: number, pageSize: number) => {
     }
 
     url += `${url ? '&' : ''}_page=${pageNumber + 1}&_limit=${pageSize}`
-    console.log(url)
 
     return url
 }
