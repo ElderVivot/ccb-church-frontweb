@@ -1,5 +1,5 @@
 export interface IFilters {
-    statusOrdemPagto?: string
+    statusOrdemPagto?: string[]
     nameProvider?: string
     nameCentroCusto?: string
     schedulingDateStart?: string

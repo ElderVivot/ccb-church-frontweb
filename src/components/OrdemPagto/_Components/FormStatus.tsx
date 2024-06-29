@@ -18,7 +18,8 @@ export function FormStatus({ status, setStatus }): JSX.Element {
                     onChange={handleChange}
                 >
                     <option value={'OPENED'}>Em Aberto</option>
-                    <option value={'PAYED'}>Pago</option>
+                    <option value={'PAYED'}>Pago - Etapa 1</option>
+                    <option value={'PAYED_2'}>Pago - Etapa 2</option>
                     <option value={'LAUNCHED_SYSTEM'}>Lançado no SIGA</option>
                     <option value={'CANCELED'}>Cancelado</option>
                 </Select>

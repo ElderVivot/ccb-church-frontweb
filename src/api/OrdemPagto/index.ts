@@ -30,6 +30,7 @@ export const postOrdemPagto = async (data: IOrdemPagto): Promise<AxiosResponse<I
 export const putOrdemPagto = async (data: IOrdemPagto): Promise<AxiosResponse<IOrdemPagto>> => {
     try {
         const url = `ordem_pagto/${data.idOrdemPagto}`
+        console.log(data)
         const result = await api.put(url, { ...data })
         return result
     } catch (error) {

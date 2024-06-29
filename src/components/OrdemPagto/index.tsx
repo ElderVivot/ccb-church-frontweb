@@ -22,12 +22,27 @@ import { AddNewOrdemPagto } from './AddNew'
 import { FilterComponent } from './Filters'
 import { UpdateStatusOrdemPagto } from './UpdateStatus'
 
+const correlationLabelStatusPerValue = (label: string): string => {
+    if (label === 'Em Aberto') return 'OPENED'
+    else if (label === 'Pago - Etapa 1') return 'PAYED'
+    else if (label === 'Pago - Etapa 2') return 'PAYED_2'
+    else if (label === 'Cancelado') return 'CANCELED'
+    else if (label === 'Lançado no SIGA') return 'LAUNCHED_SYSTEM'
+    else if (label === 'Deletado') return 'DELETED'
+    else return ''
+}
+
 const filterUrl = (filters: IFilters, pageNumber: number, pageSize: number) => {
     const { nameCentroCusto, nameProvider, schedulingDateEnd, schedulingDateStart, statusOrdemPagto, setor } = filters
     let url = ''
 
-    if (statusOrdemPagto && statusOrdemPagto !== 'all') {
-        url += `${url ? '&' : ''}status=${statusOrdemPagto}`
+    if (statusOrdemPagto && statusOrdemPagto.length > 0) {
+        let statusFilter = ''
+        for (const [index, value] of statusOrdemPagto.entries()) {
+            const valueFormated = correlationLabelStatusPerValue(value)
+            statusFilter = statusFilter + (index > 0 ? ',' + valueFormated : valueFormated)
+        }
+        url += `${url ? '&' : ''}status=${statusFilter}`
     }
     if (setor && setor !== 'all') {
         url += `${url ? '&' : ''}numberSetor=${setor}`
@@ -43,6 +58,7 @@ const filterUrl = (filters: IFilters, pageNumber: number, pageSize: number) => {
     }
 
     url += `${url ? '&' : ''}_page=${pageNumber + 1}&_limit=${pageSize}`
+    console.log(url)
 
     return url
 }
@@ -52,12 +68,12 @@ export function OrdemPagto(): JSX.Element {
     const [filters, setFilters] = useState<IFilters>({
         schedulingDateStart: formatDate(new Date(today.getFullYear(), today.getMonth(), 1), '', 'yyyy-MM-dd'),
         schedulingDateEnd: formatDate(today, '', 'yyyy-MM-dd'),
-        statusOrdemPagto: 'OPENED'
+        statusOrdemPagto: ['Em Aberto', 'Pago - Etapa 1']
     })
     const [filtersExecuteFetch, setFiltersExecuteFetch] = useState<IFilters>({
         schedulingDateStart: formatDate(new Date(today.getFullYear(), today.getMonth(), 1), '', 'yyyy-MM-dd'),
         schedulingDateEnd: formatDate(today, '', 'yyyy-MM-dd'),
-        statusOrdemPagto: 'OPENED'
+        statusOrdemPagto: ['Em Aberto', 'Pago - Etapa 1']
     })
 
     const initialState = useMemo(() => initialStateData, [])
