@@ -124,6 +124,19 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
         }
     })
 
+    registerRenderer('codeChurch', (hotInstance, TD, row, col, prop, value, cellProperties) => {
+        let codeChurch = ''
+        try {
+            codeChurch = hotInstance.getDataAtCell(row, 5).split('-')
+            codeChurch = codeChurch[codeChurch.length - 1].trim()
+            if (codeChurch) codeChurch = `${codeChurch.substring(0, 2)}-${codeChurch.substring(2)}`
+        } catch (error) { }
+        TD.textContent = codeChurch
+        TD.className = 'htMiddle htCenter'
+        dataLanc[row].codeCentroCusto = codeChurch
+        // console.log(row, hotInstance.getDataAtCell(row, 5), dataLanc[row].codeCentroCusto)
+    })
+
     if (isFetching || !isSuccess || isFetchingCentroCusto) {
         return (
             <Heading ml={2} as='h3' size='md'>Carregando...</Heading>
@@ -181,9 +194,14 @@ export default function OfertasAvulsasPageReact(props: IProps): JSX.Element {
                                 const cellProperties: { renderer?: string } = {}
                                 if (col === 1) {
                                     cellProperties.renderer = 'amountValue'
+                                } else if (col === 6) {
+                                    cellProperties.renderer = 'codeChurch'
                                 }
                                 return cellProperties
                             },
+                            // hiddenColumns: {
+                            //     columns: [6]
+                            // },
                             rowHeaders: true,
                             columnSorting: true,
                             // autoWrapRow: true,

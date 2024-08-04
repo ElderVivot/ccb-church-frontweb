@@ -42,6 +42,12 @@ export const SettingsColumns: ColumnSettings[] = [
         filter: true,
         width: 200
     }, {
+        data: 'codeCentroCusto',
+        title: '<b>Cod CC</b>',
+        type: 'text',
+        filter: true,
+        width: 70
+    }, {
         data: 'comments',
         title: '<b>Observações</b>',
         type: 'text',

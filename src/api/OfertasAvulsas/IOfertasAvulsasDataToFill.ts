@@ -6,6 +6,7 @@ export interface IOfertasAvulsas {
     receivedFrom: string
     descriptionProof: string
     nameCentroCusto: string
+    codeCentroCusto?: string
     idCentroCusto?: string
     comments: string
     alreadyMigrate?: number
